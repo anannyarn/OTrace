@@ -1,0 +1,14 @@
+# Python & Virtual environment
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Environment variables & local data
+.env
+otrace.db
+
+# Evaluation outputs
+eval/results.json
+eval/calibration.png
+.DS_Store

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTrace - Defensive Digital-Footprint Tool</title>
+    <meta name="description" content="OTrace finds public profiles across the internet, scores identity confidence, and analyzes digital exposure risk.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <!-- Subtle Trace Line Background Motif -->
+    <div class="trace-bg-container" aria-hidden="true">
+        <svg class="trace-svg" viewBox="0 0 1200 800" preserveAspectRatio="none">
+            <path class="trace-line" d="M -100 200 Q 300 50 600 300 T 1300 400" />
+            <circle class="trace-dot dot-1" cx="300" cy="110" r="4" />
+            <circle class="trace-dot dot-2" cx="600" cy="300" r="5" />
+            <circle class="trace-dot dot-3" cx="950" cy="330" r="4" />
+        </svg>
+    </div>
+
+    <!-- Header Navigation Bar -->
+    <header class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="brand-logo" id="brand-logo-link">
+                <svg class="logo-ring-svg" width="28" height="28" viewBox="0 0 32 32">
+                    <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2.5" fill="none" />
+                    <circle cx="25" cy="16" r="3" fill="var(--accent-color)" />
+                </svg>
+                <span class="brand-name">OTrace</span>
+            </a>
+
+            <!-- Compact Top Search Bar (Appears when collapsed) -->
+            <div class="top-search-wrapper" id="top-search-wrapper">
+                <form id="top-search-form" class="top-search-form">
+                    <input type="text" id="top-search-input" placeholder="Type name, college, city, company..." aria-label="Search box">
+                    <button type="submit" class="btn-search-sm">Search</button>
+                </form>
+            </div>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
+                    <svg class="theme-icon sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <svg class="theme-icon moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
+                <button class="btn-secondary-sm" id="btn-delete-data">Delete My Data</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-content">
+
+        <!-- Hero Section (Expanded by Default) -->
+        <section class="hero-section" id="hero-section">
+            <div class="hero-content">
+                <div class="hero-badge">DEFENSIVE DIGITAL FOOTPRINT ANALYZER</div>
+                <h1 class="hero-title">
+                    See what the internet can link to you.
+                </h1>
+                <p class="hero-subtitle">
+                    Type everything you know into one box. OTrace aggregates public profile data, computes identity confidence, and maps your exposure.
+                </p>
+
+                <!-- Hero Single Smart Search Form -->
+                <form id="hero-search-form" class="hero-search-box">
+                    <div class="search-input-group">
+                        <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" id="hero-search-input" class="hero-input" autocomplete="off" placeholder='e.g. "Satya Nadella, Microsoft" or "Rohan Sharma, TCS, Mumbai"' aria-label="Single Smart Search Box" autofocus>
+                        <button type="submit" id="btn-hero-search" class="btn-coral-search">Search Footprint</button>
+                    </div>
+
+                    <!-- Live Understood As Chips -->
+                    <div class="live-parse-bar" id="live-parse-bar">
+                        <span class="parse-label">Understood as:</span>
+                        <div class="chips-container" id="live-chips">
+                            <span class="chip-placeholder">Type to see live parsing...</span>
+                        </div>
+                    </div>
+
+                    <!-- Consent Gate Checkbox -->
+                    <div class="consent-wrapper">
+                        <label class="consent-checkbox-label" for="consent-check">
+                            <input type="checkbox" id="consent-check">
+                            <span class="checkbox-custom"></span>
+                            <span class="consent-text">I am searching for myself, or this person has given explicit consent.</span>
+                        </label>
+                        <div class="consent-msg-inline" id="consent-msg-inline">Consent checkbox is required before searching.</div>
+                    </div>
+                </form>
+
+                <!-- Clickable Example Queries -->
+                <div class="example-chips-wrapper">
+                    <span class="example-label">Try example:</span>
+                    <button class="chip-example" data-query="Sundar Pichai, Google">Sundar Pichai, Google</button>
+                    <button class="chip-example" data-query="Satya Nadella, Microsoft">Satya Nadella, Microsoft</button>
+                    <button class="chip-example" data-query="Rohan Sharma, TCS, Mumbai">Rohan Sharma, TCS, Mumbai</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Warning Notification Banner (e.g. Missing Search API Key) -->
+        <div class="warning-banner" id="warning-banner" style="display: none;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span id="warning-text"></span>
+        </div>
+
+        <!-- Search Results & Dashboard Section (Hidden until search is executed) -->
+        <section class="dashboard-section" id="dashboard-section" style="display: none;">
+            
+            <!-- Navigation Tabs -->
+            <nav class="dashboard-tabs" aria-label="Dashboard views">
+                <a href="#results" class="tab-btn active" id="tab-results">Results <span class="tab-badge" id="results-count-badge">0</span></a>
+                <a href="#exposure" class="tab-btn" id="tab-exposure">Exposure Report</a>
+                <a href="#graph" class="tab-btn" id="tab-graph">Connection Graph</a>
+                <a href="#history" class="tab-btn" id="tab-history">History</a>
+                <button class="btn-export-pdf" id="btn-export-pdf">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Export Report PDF
+                </button>
+            </nav>
+
+            <!-- TAB 1: RESULTS VIEW -->
+            <div class="tab-content" id="content-results">
+                
+                <!-- Understood as Summary Bar -->
+                <div class="parsed-summary-card">
+                    <div class="summary-left">
+                        <span class="summary-title">Query Parsed As:</span>
+                        <div class="chips-container" id="results-parsed-chips"></div>
+                    </div>
+                    <div class="summary-right">
+                        <span class="method-tag" id="method-tag">ML Classifier</span>
+                    </div>
+                </div>
+
+                <!-- Platform Filter Pills -->
+                <div class="filter-pills-bar" id="filter-pills-bar">
+                    <button class="pill-btn active" data-platform="ALL">All Platforms (<span id="filter-count-all">0</span>)</button>
+                </div>
+
+                <div class="disclaimer-note">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    Confidence is an estimate based on public evidence, not proof of identity. Used for self-assessment.
+                </div>
+
+                <!-- Loading Skeleton -->
+                <div class="skeleton-container" id="skeleton-container" style="display: none;">
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                </div>
+
+                <!-- Results Group 1: Most Likely (Strong & Plausible) -->
+                <div class="results-group" id="group-likely">
+                    <h2 class="group-heading">
+                        Most Likely The Same Person
+                        <span class="group-sub">Confidence score &ge; 50%</span>
+                    </h2>
+                    <div class="cards-grid" id="grid-likely"></div>
+                </div>
+
+                <!-- Results Group 2: Other Possible Matches (Weak) -->
+                <div class="results-group" id="group-other">
+                    <h2 class="group-heading">
+                        Other Possible Matches
+                        <span class="group-sub">Confidence score &lt; 50%</span>
+                    </h2>
+                    <div class="cards-grid" id="grid-other"></div>
+                </div>
+
+                <!-- Empty Results View -->
+                <div class="empty-results-card" id="empty-results-card" style="display: none;">
+                    <h3>No matching public profiles found</h3>
+                    <p>Try adding more keywords (e.g. city, employer, or handle) or verify spelling.</p>
+                </div>
+            </div>
+
+            <!-- TAB 2: EXPOSURE REPORT VIEW -->
+            <div class="tab-content" id="content-exposure" style="display: none;">
+                <div class="exposure-layout">
+                    <!-- Gauge Card -->
+                    <div class="exposure-score-card">
+                        <h3 class="card-title">Digital Exposure Score</h3>
+                        <div class="gauge-wrapper">
+                            <div class="radial-gauge" id="radial-gauge">
+                                <span class="gauge-score-num" id="gauge-score-num">0</span>
+                                <span class="gauge-max">/100</span>
+                            </div>
+                        </div>
+                        <div class="risk-badge-wrapper">
+                            Risk Level: <span class="risk-tag" id="risk-tag">Low</span>
+                        </div>
+                        <p class="gauge-desc">
+                            Aggregated exposure calculated from identified profiles, public details, handle reuse, and linking ease.
+                        </p>
+                    </div>
+
+                    <!-- Details & Attacker Perspective -->
+                    <div class="exposure-details-col">
+                        <div class="info-card">
+                            <h3 class="card-title text-danger">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                What an attacker could learn
+                            </h3>
+                            <ul class="insights-list" id="insights-list"></ul>
+                        </div>
+
+                        <div class="info-card">
+                            <h3 class="card-title text-success">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                How to reduce your exposure
+                            </h3>
+                            <div class="recs-list" id="recs-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: CONNECTION GRAPH VIEW -->
+            <div class="tab-content" id="content-graph" style="display: none;">
+                <div class="graph-card">
+                    <div class="graph-header">
+                        <h3>Entity Identity Connection Graph</h3>
+                        <p>Visualizing relationships, handle reuse, and cross-platform profile links.</p>
+                    </div>
+                    <div class="svg-graph-container" id="svg-graph-container">
+                        <svg id="connection-svg" class="connection-svg" viewBox="0 0 800 500"></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: HISTORY VIEW -->
+            <div class="tab-content" id="content-history" style="display: none;">
+                <div class="history-card">
+                    <div class="history-header">
+                        <h3>Search History (Stored ONLY in browser LocalStorage)</h3>
+                        <button class="btn-danger-sm" id="btn-clear-history">Clear History</button>
+                    </div>
+                    <ul class="history-list" id="history-list"></ul>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>OTrace Defensive Digital-Footprint Tool &bull; Built for Cybersecurity Honours Project</p>
+            <p class="footer-ethics">Public Data & Official APIs Only &bull; Strict Consent & Privacy Compliance (India DPDP Act 2023)</p>
+        </div>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
